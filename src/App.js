@@ -1,25 +1,40 @@
-import logo from './logo.svg';
+import React, { Component } from 'react';
+import shortid from 'shortid';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  state = {
+    contacts: [],
+    name: '',
+  };
+
+  inputId = shortid.generate();
+
+  handleChange = e => {
+    const { name, value } = e.currentTarget;
+
+    this.setState({ [name]: value });
+  };
+
+  render() {
+    return (
+      <form>
+        <label htmlFor={this.inputId}>
+          Your name
+          <input
+            type="text"
+            name="name"
+            value={this.state.name}
+            onChange={this.handleChange}
+            id={this.inputId}
+            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+            title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
+            required
+          />
+        </label>
+      </form>
+    );
+  }
 }
 
 export default App;
