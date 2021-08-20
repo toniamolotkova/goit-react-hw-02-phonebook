@@ -11,16 +11,26 @@ class App extends Component {
   inputId = shortid.generate();
 
   handleChange = e => {
-    const { name, value } = e.currentTarget;
+    this.setState({ name: e.currentTarget.value });
+  };
 
-    this.setState({ [name]: value });
+  handleSubmit = e => {
+    e.preventDefault();
+
+    console.log(this.props.onSubmit(this.state));
+
+    this.reset();
+  };
+
+  reset = () => {
+    this.setState({ name: '' });
   };
 
   render() {
     return (
-      <form>
+      <form onSubmit={this.handleSubmit}>
         <label htmlFor={this.inputId}>
-          Your name
+          Name
           <input
             type="text"
             name="name"
@@ -32,6 +42,7 @@ class App extends Component {
             required
           />
         </label>
+        <button type="submit">Add contact</button>
       </form>
     );
   }
