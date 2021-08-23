@@ -1,49 +1,49 @@
 import React, { Component } from 'react';
 import shortid from 'shortid';
+
 import './App.css';
+import Form from './components/Form';
+import ContactsList from './components/ContactsList';
+import Section from './components/Section';
 
 class App extends Component {
   state = {
     contacts: [],
-    name: '',
   };
 
-  inputId = shortid.generate();
+  addContact = ({ name, number }) => {
+    const contact = {
+      id: shortid.generate(),
+      name,
+      number,
+    };
 
-  handleChange = e => {
-    this.setState({ name: e.currentTarget.value });
+    this.setState(prevState => ({
+      contacts: [...prevState.contacts, contact],
+    }));
   };
 
-  handleSubmit = e => {
-    e.preventDefault();
-
-    console.log(this.props.onSubmit(this.state));
-
-    this.reset();
-  };
-
-  reset = () => {
-    this.setState({ name: '' });
+  onDeleteContact = id => {
+    this.setState({
+      contacts: this.state.contacts.filter(contact => contact.id !== id),
+    });
   };
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label htmlFor={this.inputId}>
-          Name
-          <input
-            type="text"
-            name="name"
-            value={this.state.name}
-            onChange={this.handleChange}
-            id={this.inputId}
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
-            required
-          />
-        </label>
-        <button type="submit">Add contact</button>
-      </form>
+      <>
+        <Section title="Phonebook">
+          <Form onSubmit={this.addContact} />
+        </Section>
+        <Section title="Contacts">
+          {this.state.contacts.length > 0 ? (
+            <ContactsList
+              contacts={this.state.contacts}
+              onDeleteContact={this.onDeleteContact}
+            />
+          ) : null}
+        </Section>
+      </>
     );
   }
 }
