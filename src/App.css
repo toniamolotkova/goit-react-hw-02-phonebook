@@ -36,3 +36,12 @@
     transform: rotate(360deg);
   }
 }
+
+.title {
+  margin-bottom: 20px;
+  font-size: 32px;
+  text-align: center;
+  text-transform: uppercase;
+
+  color: #2cac60;
+}

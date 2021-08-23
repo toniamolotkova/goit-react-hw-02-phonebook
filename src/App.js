@@ -61,7 +61,7 @@ class App extends Component {
     return (
       <>
         <Section>
-          <h1>Phonebook</h1>
+          <h1 className="title">Phonebook</h1>
           <ContactForm onSubmit={this.addContact} />
         </Section>
         <Section title="Contacts">
